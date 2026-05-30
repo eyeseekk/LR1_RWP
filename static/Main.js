@@ -1,0 +1,1 @@
+New-Item -Path D:\Политех\РВП\ЛР1\LR1\static\main.js -ItemType File -Force

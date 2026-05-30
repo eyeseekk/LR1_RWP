@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <article class="blog-post">
+            <!-- Заголовок поста -->
+            <h1 class="mb-3">{{ post.title }}</h1>
+
+            <!-- Автор и дата -->
+            <p class="post-meta text-muted mb-4">
+                {{ post.author }}, {{ post.date.strftime('%d.%m.%Y') }}
+            </p>
+
+            <!-- Изображение -->
+            {% if post.image_id %}
+            <div class="post-image mb-4">
+                <img src="{{ url_for('static', filename='images/' + post.image_id) }}"
+                     alt="Изображение поста"
+                     class="img-fluid w-100">
+            </div>
+            {% endif %}
+
+            <!-- Текст поста -->
+            <div class="post-content mb-5">
+                <p>{{ post.text }}</p>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- Форма «Оставьте комментарий» -->
+            <div class="comment-form mb-5">
+                <h3 class="mb-4">Оставьте комментарий</h3>
+                <form action="#" method="post">
+                    <div class="mb-3">
+                        <textarea class="form-control" id="comment" rows="4"
+                                  placeholder="Ваш комментарий..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </form>
+            </div>
+
+            <!-- Комментарии -->
+            <div class="comments-section">
+                {% for comment in post.comments %}
+                <div class="media mb-4">
+                    <div class="media-body">
+                        <h5 class="mt-0 mb-1">{{ comment.author }}</h5>
+                        <p class="text-muted small mb-2">Только что</p>
+                        <p>{{ comment.text }}</p>
+
+                        <!-- Ответы на комментарии -->
+                        {% if comment.replies %}
+                        <div class="replies mt-3">
+                            {% for reply in comment.replies %}
+                            <div class="media mb-3">
+                                <div class="media-body">
+                                    <h6 class="mt-0 mb-1">{{ reply.author }}</h6>
+                                    <p class="text-muted small mb-2">Только что</p>
+                                    <p>{{ reply.text }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </article>
+    </div>
+</div>
+{% endblock %}
